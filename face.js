@@ -7,7 +7,7 @@
 var DEBUG_MODE = true;
 
 // this can be used to set the number of sliders to show
-var NUM_SLIDERS = 3;
+var NUM_SLIDERS = 4;
 
 // other variables can be in here too
 // here's some examples for colors used
@@ -259,7 +259,7 @@ function Face(eyes, mouths) {
 
   /* get internal properties as list of numbers 0-100 */
   this.getProperties = function() {
-    let settings = new Array(3);
+    let settings = new Array(4);
     settings[0] = map(this.num_eyes, 1, 2, 0, 100);
     settings[1] = map(this.eye_shift, -2, 2, 0, 100);
     settings[2] = map(this.mouth_size, 0.5, 8, 0, 100);
