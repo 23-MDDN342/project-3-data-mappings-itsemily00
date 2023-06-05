@@ -66,59 +66,68 @@ function Face(eyes, mouths) {
   this.eyebrowColour = [119, 85, 17]
   // copied from face_code.js
   this.centerX = 0;
+  this.centerY = -1;
   this.eyeSizeY = 4;
   this.eyeSizeX = 3;
   this.eyeRadiX = 3/2;
   this.frogEyeX = -1;
+  this.frogEyeY = -1.2;
   this.photoSizeX = 18;
   this.eyeDistance = 2;
   this.photoSizeY = 15;
+  
   /*
    * Draw the face with position lists that include:
    *    chin, right_eye, left_eye, right_eyebrow, left_eyebrow
    *    bottom_lip, top_lip, nose_tip, nose_bridge, 
    */  
   this.draw = function(positions) {
+    this.R_eyeX = positions.right_eye[0][0];
+    this.R_eyeY = positions.right_eye[0][1];
+    this.L_eyeX = positions.left_eye[0][0];
+    this.L_eyeY = positions.left_eye[0][1];
     //********Draw the frog********
-    // torso
-    noStroke();
-    fill(this.darkGery);
-    rectMode(CENTER);
-    rect(this.centerX, 4, 4, 4);
+    // // torso
+    // noStroke();
+    // fill(this.darkGery);
+    // rectMode(CENTER);
+    // rect(this.centerX, 4, 4, 4);
 
     // head
     noStroke();
     fill(this.darkGery);
-    ellipse(this.frogEyeX, 1, this.eyeSizeX, this.eyeSizeY); // space for eyes
-    ellipse(this.frogEyeX + this.eyeDistance, 1, this.eyeSizeX, this.eyeSizeY);
-    ellipse(this.centerX, 2.5, this.eyeSizeX * 2, this.eyeSizeY * 0.75); // space for mouth
+    ellipse(this.frogEyeX, this.centerY, this.eyeSizeX, this.eyeSizeY); // space for eyes
+    ellipse(this.frogEyeX + this.eyeDistance, this.centerY, this.eyeSizeX, this.eyeSizeY);
+    ellipse(this.centerX, this.centerY + 1.5, this.eyeSizeX * 2, this.eyeSizeY * 0.75); // space for mouth
 
     fill(255); // eyes
-    ellipse(this.frogEyeX / 0.9, 0.8, this.eyeSizeX * 0.6, this.eyeSizeY * 0.7); // left
-    ellipse(this.frogEyeX * 0.9 + this.eyeDistance, 0.8, this.eyeSizeX * 0.6, this.eyeSizeY * 0.7);
+    ellipse(this.frogEyeX / 0.9, this.frogEyeY, this.eyeSizeX * 0.6, this.eyeSizeY * 0.7); // left
+    ellipse(this.frogEyeX * 0.9 + this.eyeDistance, this.frogEyeY, this.eyeSizeX * 0.6, this.eyeSizeY * 0.7);
 
     //*****eye expressions*****//
-    if (eyes == 0) {
+    if (this.eyes == 0) {
         // looking right
         push();
         noStroke(); // looking right
         fill(this.darkGery);
-        ellipse(this.frogEyeX / 1.2, 0.8, this.eyeSizeX * 0.2, this.eyeSizeY * 0.4);
+        //left
+        ellipse(this.frogEyeX / 1.2, this.L_eyeY, this.eyeSizeX * 0.2, this.eyeSizeY * 0.4);
+        //right
         ellipse(
           this.frogEyeX / 1.2 + this.eyeDistance * 1.1,
-          0.8,
+          this.R_eyeY,
           this.eyeSizeX * 0.2,
           this.eyeSizeY * 0.4
       );
       pop();
 
-  } else if (eyes == 1) {
+  } else if (this.eyes == 1) {
       // wink eyes
       push();
       stroke(this.darkGery);
-      strokeWeight(0.3);
-      line(this.frogEyeX / 1.2, 0.8, (this.frogEyeX - this.eyeRadiX) * 0.5, 1); // left
-      line(this.frogEyeX / 1.2, 0.8, (this.frogEyeX - this.eyeRadiX) * 0.5, 0.6);
+      strokeWeight(0.2);
+      line(this.frogEyeX / 1.2, this.frogEyeY, (this.frogEyeX - this.eyeRadiX) * 0.5, 1); // left
+      line(this.frogEyeX / 1.2, this.frogEyeY, (this.frogEyeX - this.eyeRadiX) * 0.5, 0.6);
       line(
           this.frogEyeX / 1.2 + this.eyeDistance * 1.1,
           0.7,
@@ -127,39 +136,53 @@ function Face(eyes, mouths) {
       ); // right
       pop();
 
-  } else if (eyes == 2) {
+  } else if (this.eyes == 2) {
       // smiley eyes
       push();
       noFill();
       stroke(this.darkGery);
-      strokeWeight(0.3);
+      strokeWeight(0.2);
       angleMode(DEGREES);
-      arc(this.frogEyeX / 0.9, 1, 0.5, 0.8, 180, 0);
-      arc(this.frogEyeX * 0.9 + this.eyeDistance, 1, 0.5, 0.8, 180, 0);
+      arc(this.frogEyeX / 0.9, this.frogEyeY + 2.2, 0.5, 0.8, 180, 0);
+      arc(this.frogEyeX * 0.9 + this.eyeDistance, this.frogEyeY + 2.2, 0.5, 0.8, 180, 0);
       pop();
 
   }
       //*****mouth expressions*****//
-      if (mouths == 0) {
+      if (this.mouths == 0) {
         // smile
         noFill();
         stroke(255);
         strokeWeight(0.3);
         angleMode(DEGREES);
         arc(this.centerX, 2.8, 2, 1, 2, 110);
-    } else if (mouths == 1) {
+    } else if (this.mouths == 1) {
         // circle mouth
         noFill();
         stroke(255);
         strokeWeight(0.3);
         ellipse(this.centerX, 3, 0.8, 1);
-    } else if (mouths == 2) {
+    } else if (this.mouths == 2) {
         // laughing mouth
         fill(255);
         noStroke();
         angleMode(DEGREES);
         arc(this.centerX, 2.5, 1.5, 2, 0, 180, CHORD);
     }
+    
+    // //debug
+    // push();
+
+    // this.eyeX = positions.right_eye[0][0];
+    // this.eyeY = positions.right_eye[0][1];
+    // // //this.frogEyeY = positions.right_eye[0][1];
+    // // console.log(this.eyeX);
+
+    // //fill[235, 52, 52];
+    // fill(255);
+    // //ellipse(0, 0, 0.2);
+    // ellipse(this.eyeX, this.eyeY, 0.2);
+    // pop();
 
     // console.log()
     // // head
